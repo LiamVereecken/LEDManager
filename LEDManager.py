@@ -38,17 +38,20 @@ def none():
 
 def main(argv):
     r = False
+    w = False
     try:
-        opts, args = getopt.getopt(argv, "r", ["red="])
+        opts, args = getopt.getopt(argv, "rw", ["red=", "white="])
     except getopt.GetoptError:
         print('LEDManager.py (-r)')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("--red", "-r"):
             r = True
+        elif opt in ("--white","-w"):
+            w = True
     while True:
         print(datetime.datetime.now())
-        if datetime.datetime.now().hour >= 7 and datetime.datetime.now().hour <= 20:
+        if (datetime.datetime.now().hour >= 7 and datetime.datetime.now().hour <= 20) or w:
             white()
         elif r:
             red()
