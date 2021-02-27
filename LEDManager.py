@@ -48,7 +48,7 @@ def main(argv):
             r = True
     while True:
         print(datetime.datetime.now())
-        if datetime.datetime.now().hour >= 7 & datetime.datetime.now().hour <= 20:
+        if datetime.datetime.now().hour >= 7 and datetime.datetime.now().hour <= 20:
             white()
         elif r:
             red()
