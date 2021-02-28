@@ -29,6 +29,7 @@ def my_callback(inp):
         state = "white"
     elif inp in ("n", "none", "reset", "dark night", "dark", "out", "default"):
         state = "default"
+    print("State changed to ", state)
 
 
 # start the Keyboard thread
