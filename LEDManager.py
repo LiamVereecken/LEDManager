@@ -23,6 +23,7 @@ state = "default"
 
 def my_callback(inp):
     # evaluate the keyboard input
+    global state
     if inp in ("r", "red", "red night"):
         state = "red"
         print("State changed to", state)
