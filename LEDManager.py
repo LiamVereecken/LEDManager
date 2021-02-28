@@ -35,6 +35,7 @@ def my_callback(inp):
         print("State changed to", state)
     else:
         print("State unchanged")
+    refresh_state()
 
 
 # start the Keyboard thread
@@ -68,12 +69,15 @@ def none():
     pixels.fill((0, 0, 0, 0))
     pixels.show()
 
-while True:
-    print(datetime.datetime.now(),"state is",state)
+def refresh_state():
+    print(datetime.datetime.now(), "state is", state)
     if (datetime.datetime.now().hour >= 7 and datetime.datetime.now().hour <= 20) or state == "white":
         white()
     elif state == "red":
         red()
     else:
         none()
+
+while True:
+    refresh_state()
     time.sleep(10)
