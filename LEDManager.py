@@ -4,6 +4,35 @@ import sys
 import time
 import board
 import neopixel
+import threading
+
+
+class KeyboardThread(threading.Thread):
+
+    def __init__(self, input_cbk=None, name='keyboard-input-thread'):
+        self.input_cbk = input_cbk
+        super(KeyboardThread, self).__init__(name=name)
+        self.start()
+
+    def run(self):
+        while True:
+            self.input_cbk(input())  # waits to get input + Return
+
+
+state = "default"
+
+def my_callback(inp):
+    # evaluate the keyboard input
+    if inp in ("r", "red", "red night"):
+        state = "red"
+    elif inp in ("w", "white", "white night"):
+        state = "white"
+    elif inp in ("n", "none", "reset", "dark night", "dark", "out", "default"):
+        state = "default"
+
+
+# start the Keyboard thread
+kthread = KeyboardThread(my_callback)
 
 # Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
 # NeoPixels must be connected to D10, D12, D18 or D21 to work.
@@ -25,40 +54,20 @@ def white():
     pixels.fill((0, 0, 0, 255))
     pixels.show()
 
-
 def red():
     pixels.fill((255, 0, 0, 0))
     pixels.show()
-
 
 def none():
     pixels.fill((0, 0, 0, 0))
     pixels.show()
 
-
-def main(argv):
-    r = False
-    w = False
-    try:
-        opts, args = getopt.getopt(argv, "rw", ["red=", "white="])
-    except getopt.GetoptError:
-        print('LEDManager.py (-r)')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("--red", "-r"):
-            r = True
-        elif opt in ("--white","-w"):
-            w = True
-    while True:
-        print(datetime.datetime.now())
-        if (datetime.datetime.now().hour >= 7 and datetime.datetime.now().hour <= 20) or w:
-            white()
-        elif r:
-            red()
-        else:
-            none()
-        time.sleep(10)
-
-
-if __name__ == "__main__":
-    main(sys.argv[1:])
+while True:
+    print(datetime.datetime.now())
+    if (datetime.datetime.now().hour >= 7 and datetime.datetime.now().hour <= 20) or state == "white":
+        white()
+    elif state == "red":
+        red()
+    else:
+        none()
+    time.sleep(10)
