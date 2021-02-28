@@ -25,14 +25,15 @@ def my_callback(inp):
     # evaluate the keyboard input
     if inp in ("r", "red", "red night"):
         state = "red"
-        print("State changed to ", state)
+        print("State changed to", state)
     elif inp in ("w", "white", "white night"):
         state = "white"
-        print("State changed to ", state)
+        print("State changed to", state)
     elif inp in ("n", "none", "reset", "dark night", "dark", "out", "default"):
         state = "default"
-        print("State changed to ", state)
-    print("State unchanged")
+        print("State changed to", state)
+    else:
+        print("State unchanged")
 
 
 # start the Keyboard thread
@@ -67,7 +68,7 @@ def none():
     pixels.show()
 
 while True:
-    print(datetime.datetime.now())
+    print(datetime.datetime.now(),"state is",state)
     if (datetime.datetime.now().hour >= 7 and datetime.datetime.now().hour <= 20) or state == "white":
         white()
     elif state == "red":
